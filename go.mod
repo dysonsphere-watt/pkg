@@ -1,4 +1,4 @@
-module git.chenyucanada.com/DysonSphereGroup/pkg
+module git.chenyucanada.com/benjababe/pkg
 
 go 1.21.5
 
