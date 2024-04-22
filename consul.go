@@ -2,36 +2,37 @@ package pkg
 
 import (
 	"fmt"
+	"net"
+	"sync"
+
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/app/server/registry"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/goravel/framework/facades"
 	consulapi "github.com/hashicorp/consul/api"
 	"github.com/hertz-contrib/registry/consul"
-	"net"
-	"sync"
 )
 
 var (
-	wg           sync.WaitGroup
-	localIP      = "127.0.0.1"
-	h            *server.Hertz
-	consulClient *consulapi.Client
-	info         *registry.Info
-	r            registry.Registry
+	wg      sync.WaitGroup
+	localIP = "127.0.0.1"
+	h       *server.Hertz
+	info    *registry.Info
+	r       registry.Registry
 )
 
 // Register -- register service to consul
 func Register() *server.Hertz {
+	cfg := facades.Config()
 
 	//set consul server ip
-	consulhost := facades.Config().GetString("host", "127.0.0.1")
-	consulport := facades.Config().GetString("port", "8500")
+	consulHost := cfg.GetString("host", "127.0.0.1")
+	consulPort := cfg.GetString("port", "8500")
 
-	consulcfg := consulapi.DefaultConfig()
-	consulcfg.Address = net.JoinHostPort(consulhost, consulport)
-	fmt.Println(consulcfg.Address)
-	conclient, err := consulapi.NewClient(consulcfg)
+	consulCfg := consulapi.DefaultConfig()
+	consulCfg.Address = net.JoinHostPort(consulHost, consulPort)
+	fmt.Println(consulCfg.Address)
+	conclient, err := consulapi.NewClient(consulCfg)
 	if err != nil {
 		facades.Log().Panic(err)
 		return nil
@@ -42,17 +43,18 @@ func Register() *server.Hertz {
 
 	//set localIP for host
 	localIP = Myip()
-	addr := net.JoinHostPort(localIP, facades.Config().GetString("APP_PORT", "8000"))
+	addr := net.JoinHostPort(localIP, cfg.GetString("APP_PORT", "8000"))
 	r = consul.NewConsulRegister(conclient)
 	info = &registry.Info{
-		ServiceName: facades.Config().GetString("APP_MODULE", "Demo"),
+		ServiceName: cfg.GetString("APP_MODULE", "Demo"),
 		Addr:        utils.NewNetAddr("tcp", addr),
 		Weight:      10,
 		Tags:        nil,
 	}
 
+	s := "0.0.0.0:" + cfg.GetString("APP_PORT")
 	h = server.Default(
-		server.WithHostPorts(addr),
+		server.WithHostPorts(s),
 		server.WithRegistry(r, info),
 	)
 	return h
