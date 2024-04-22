@@ -3,25 +3,26 @@ package pkg
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/network"
 	"github.com/goravel/framework/facades"
 	"github.com/hertz-contrib/cors"
-	"strings"
 )
 
 func Boot() *server.Hertz {
 
 	// Load the server config
 	con := facades.Config()
-	s := con.GetString("APP_HOST") + ":" + con.GetString("APP_PORT")
+	s := "0.0.0.0:" + con.GetString("APP_PORT")
 
 	if facades.Config().GetString("CONSUL_HOST") != "" {
-		fmt.Println("to Register consul")
+		fmt.Println("Registering services to Consul")
 		h = Register()
 
 	} else {
-		fmt.Println("not Register consul")
+		fmt.Println("Skipping Consul service registration")
 		h = server.Default(
 			server.WithHostPorts(s),
 			server.WithOnConnect(svrconn),
