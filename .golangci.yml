@@ -1,0 +1,13 @@
+linters:
+  disable-all: true
+  enable:
+    - gocritic
+    - gosec
+    - govet
+    - revive
+    - staticcheck
+    - unused
+
+run:
+  timeout: 3m
+  go: "1.22.0"
