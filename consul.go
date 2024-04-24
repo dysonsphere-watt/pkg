@@ -41,7 +41,8 @@ func Register() *server.Hertz {
 
 	// Set localIP for serviceHost
 	serviceHost := cfg.GetString("APP_URL", "http://localhost")
-	addr := net.JoinHostPort(serviceHost, cfg.GetString("APP_PORT", "8000"))
+	servicePort := cfg.GetString("APP_PUBLIC_PORT", "80")
+	addr := net.JoinHostPort(serviceHost, servicePort)
 	r = consul.NewConsulRegister(consulClient)
 	info = &registry.Info{
 		ServiceName: cfg.GetString("APP_MODULE", "Demo"),
