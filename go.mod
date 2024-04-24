@@ -1,4 +1,4 @@
-module git.chenyucanada.com/DysonSphereGroup/pkg
+module github.com/dysonsphere-watt/pkg
 
 go 1.21.5
 
