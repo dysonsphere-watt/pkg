@@ -32,7 +32,7 @@ func Boot() *server.Hertz {
 	// set cors
 	var corsc = con.Get("corscfg")
 
-	//转换
+	// 转换
 	cor, ok := corsc.(cors.Config)
 	if ok {
 		// 跨域等等头部设置在配置文件 /config/cors.go中
@@ -45,6 +45,6 @@ func Boot() *server.Hertz {
 }
 
 // svrconn -- just used self
-func svrconn(c context.Context, con network.Conn) context.Context {
+func svrconn(c context.Context, _ network.Conn) context.Context {
 	return c
 }

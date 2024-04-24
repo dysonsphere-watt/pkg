@@ -24,7 +24,7 @@ var (
 func Register() *server.Hertz {
 	cfg := facades.Config()
 
-	//set consul server ip
+	// Set consul server ip
 	consulHost := cfg.GetString("CONSUL_HOST", "127.0.0.1")
 	consulPort := cfg.GetString("CONSUL_PORT", "8500")
 
@@ -39,7 +39,7 @@ func Register() *server.Hertz {
 	wg.Add(2)
 	defer wg.Done()
 
-	//set localIP for serviceHost
+	// Set localIP for serviceHost
 	serviceHost := cfg.GetString("APP_URL", "http://localhost")
 	addr := net.JoinHostPort(serviceHost, cfg.GetString("APP_PORT", "8000"))
 	r = consul.NewConsulRegister(consulClient)
