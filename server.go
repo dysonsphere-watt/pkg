@@ -39,7 +39,7 @@ func Boot() *server.Hertz {
 		h.Use(cors.New(cor))
 	}
 
-	//write to log
+	// Write to log
 	facades.Log().Info(strings.ToUpper(facades.Config().GetString("APP_MODULE")) + " Server Started:")
 	return h
 }
