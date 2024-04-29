@@ -25,6 +25,7 @@ func Boot() *server.Hertz {
 		fmt.Println("Skipping Consul service registration")
 		h = server.Default(
 			server.WithHostPorts(s),
+			server.WithRedirectTrailingSlash(false),
 			server.WithOnConnect(svrconn),
 		)
 	}

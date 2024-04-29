@@ -54,6 +54,7 @@ func Register() *server.Hertz {
 	s := "0.0.0.0:" + cfg.GetString("APP_PORT")
 	h = server.Default(
 		server.WithHostPorts(s),
+		server.WithRedirectTrailingSlash(false),
 		server.WithRegistry(r, info),
 	)
 	return h
