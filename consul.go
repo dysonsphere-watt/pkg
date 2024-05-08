@@ -21,7 +21,7 @@ var (
 )
 
 // Register -- register service to consul
-func Register() *server.Hertz {
+func Register(bodyMaxSize int) *server.Hertz {
 	cfg := facades.Config()
 
 	// Set consul server ip
@@ -56,6 +56,7 @@ func Register() *server.Hertz {
 		server.WithHostPorts(s),
 		server.WithRedirectTrailingSlash(false),
 		server.WithRegistry(r, info),
+		server.WithMaxRequestBodySize(bodyMaxSize),
 	)
 	return h
 

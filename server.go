@@ -11,7 +11,7 @@ import (
 	"github.com/hertz-contrib/cors"
 )
 
-func Boot() *server.Hertz {
+func Boot(bodyMaxSize int) *server.Hertz {
 
 	// Load the server config
 	con := facades.Config()
@@ -19,14 +19,14 @@ func Boot() *server.Hertz {
 
 	if facades.Config().GetString("CONSUL_HOST") != "" {
 		fmt.Println("Registering services to Consul")
-		h = Register()
-
+		h = Register(bodyMaxSize)
 	} else {
 		fmt.Println("Skipping Consul service registration")
 		h = server.Default(
 			server.WithHostPorts(s),
 			server.WithRedirectTrailingSlash(false),
 			server.WithOnConnect(svrconn),
+			server.WithMaxRequestBodySize(bodyMaxSize),
 		)
 	}
 
