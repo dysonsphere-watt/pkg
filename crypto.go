@@ -26,7 +26,7 @@ func Encrypt(key, plainText []byte) (string, error) {
 		return "", err
 	}
 
-	cipherText := aesGCM.Seal(nil, nonce, plainText, nil)
+	cipherText := aesGCM.Seal(nonce, nonce, plainText, nil)
 
 	b64CipherText := b64.URLEncoding.EncodeToString(cipherText)
 	return b64CipherText, nil
