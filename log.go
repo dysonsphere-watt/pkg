@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/goravel/framework/facades"
 )
 
@@ -32,8 +33,10 @@ type LogBody struct {
 }
 
 // Logs both locally and to a central log server
-func DistLog(logType LogType, detectedIP, detectedPlatform, content string, userID, robotID, bookingID, orderID int) {
+func DistLog(logType LogType, c *app.RequestContext, content string, userID, robotID, bookingID, orderID int) {
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
+	detectedIP := c.ClientIP()
+	detectedPlatform := string(c.UserAgent())
 
 	body := LogBody{
 		ApplicationType:  applicationType,
