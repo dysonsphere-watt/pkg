@@ -32,7 +32,9 @@ type LogBody struct {
 }
 
 // Logs both locally and to a central log server
-func DistLog(logType LogType, applicationType, detectedIP, detectedPlatform, content string, userID, robotID, bookingID, orderID int) {
+func DistLog(logType LogType, detectedIP, detectedPlatform, content string, userID, robotID, bookingID, orderID int) {
+	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
+
 	body := LogBody{
 		ApplicationType:  applicationType,
 		LogType:          string(logType),
