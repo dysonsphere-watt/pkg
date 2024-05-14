@@ -26,17 +26,36 @@ type LogBody struct {
 	DetectedIP       string `json:"detected_ip"`
 	DetectedPlatform string `json:"detected_platform"`
 	Content          string `json:"content"`
-	UserID           int    `json:"user_id"`
-	RobotID          int    `json:"robot_id"`
-	BookingID        int    `json:"booking_id"`
-	OrderID          int    `json:"order_id"`
+	UserID           int32  `json:"user_id"`
+	RobotID          int32  `json:"robot_id"`
+	BookingID        int32  `json:"booking_id"`
+	OrderID          int32  `json:"order_id"`
 }
 
-// Logs both locally and to a central log server
-func DistLog(logType LogType, c *app.RequestContext, content string, userID, robotID, bookingID, orderID int) {
+// Logs both locally and to a distributed log server
+func DistLog(logType LogType, c *app.RequestContext, content string, userID, robotID, bookingID, orderID int32) {
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
 	detectedIP := c.ClientIP()
 	detectedPlatform := string(c.UserAgent())
+
+	prettyPrint := fmt.Sprintf("[%s] IP: %s, User-Agent: %s: %s", applicationType, detectedIP, detectedPlatform, content)
+	if logType == LogTypeInfo {
+		facades.Log().Info(prettyPrint)
+	} else if logType == LogTypeDebug {
+		facades.Log().Debug(prettyPrint)
+	} else if logType == LogTypeWarn {
+		facades.Log().Warning(prettyPrint)
+	} else if logType == LogTypeError {
+		facades.Log().Error(prettyPrint)
+	} else if logType == LogTypeFatal {
+		facades.Log().Fatal(prettyPrint)
+	}
+
+	url := facades.Config().GetString("WATT_LOG_CREATE_URL", "")
+	if url == "" {
+		facades.Log().Error("WATT_LOG_CREATE_URL is not set, unable to log to the server!")
+		return
+	}
 
 	body := LogBody{
 		ApplicationType:  applicationType,
@@ -51,13 +70,13 @@ func DistLog(logType LogType, c *app.RequestContext, content string, userID, rob
 	}
 	jsonBody, err := json.Marshal(body)
 	if err != nil {
-		fmt.Println("Error marshaling JSON body:", err.Error())
+		facades.Log().Error("Error marshaling JSON body: " + err.Error())
 		return
 	}
 
-	req, err := http.NewRequest(http.MethodPost, facades.Config().GetString("WATT_LOG_CREATE_URL"), bytes.NewBuffer(jsonBody))
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(jsonBody))
 	if err != nil {
-		fmt.Println("Error creating HTTP request for logging:", err.Error())
+		facades.Log().Error("Error creating HTTP request for logging: " + err.Error())
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -65,20 +84,8 @@ func DistLog(logType LogType, c *app.RequestContext, content string, userID, rob
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending HTTP request:", err)
+		facades.Log().Error("Error sending HTTP request: " + err.Error())
 		return
 	}
 	defer resp.Body.Close()
-
-	if logType == LogTypeInfo {
-		facades.Log().Info(applicationType, detectedIP, detectedPlatform, content)
-	} else if logType == LogTypeDebug {
-		facades.Log().Debug(applicationType, detectedIP, detectedPlatform, content)
-	} else if logType == LogTypeWarn {
-		facades.Log().Warning(applicationType, detectedIP, detectedPlatform, content)
-	} else if logType == LogTypeError {
-		facades.Log().Error(applicationType, detectedIP, detectedPlatform, content)
-	} else if logType == LogTypeFatal {
-		facades.Log().Fatal(applicationType, detectedIP, detectedPlatform, content)
-	}
 }
