@@ -25,6 +25,8 @@ type LogBody struct {
 	LogType          string `json:"log_type"`
 	DetectedIP       string `json:"detected_ip"`
 	DetectedPlatform string `json:"detected_platform"`
+	Path             string `json:"path"`
+	RequestBody      string `json:"request_body"`
 	Content          string `json:"content"`
 	UserID           int32  `json:"user_id"`
 	RobotID          int32  `json:"robot_id"`
@@ -33,7 +35,7 @@ type LogBody struct {
 }
 
 // Logs both locally and to a distributed log server
-func DistLog(logType LogType, c *app.RequestContext, content string, userID, robotID, bookingID, orderID int32) {
+func DistLog(logType LogType, c *app.RequestContext, path, reqBody, content string, userID, robotID, bookingID, orderID int32) {
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
 	detectedIP := c.ClientIP()
 	detectedPlatform := string(c.UserAgent())
@@ -62,6 +64,8 @@ func DistLog(logType LogType, c *app.RequestContext, content string, userID, rob
 		LogType:          string(logType),
 		DetectedIP:       detectedIP,
 		DetectedPlatform: detectedPlatform,
+		Path:             path,
+		RequestBody:      reqBody,
 		Content:          content,
 		UserID:           userID,
 		RobotID:          robotID,
