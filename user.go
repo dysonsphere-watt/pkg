@@ -19,7 +19,7 @@ func GetJWTFromHeader(c *app.RequestContext) string {
 	return spl[1]
 }
 
-func GetUserIdFromJWT(token string) (int32, error) {
+func GetUserIDFromJWT(token string) (int32, error) {
 	decodedPayload, err := facades.Auth().Parse(http.Background(), token)
 	if err != nil {
 		return 0, errors.New("failed to decode JWT")
@@ -34,9 +34,9 @@ func GetUserIdFromJWT(token string) (int32, error) {
 	return int32(userID), nil
 }
 
-func GetUserId(c *app.RequestContext) (int32, error) {
+func GetUserID(c *app.RequestContext) (int32, error) {
 	jwt := GetJWTFromHeader(c)
-	userID, err := GetUserIdFromJWT(jwt)
+	userID, err := GetUserIDFromJWT(jwt)
 	if err != nil {
 		return 0, err
 	}

@@ -41,16 +41,20 @@ func DistLog(logType LogType, c *app.RequestContext, path, reqBody, content stri
 	detectedPlatform := string(c.UserAgent())
 
 	prettyPrint := fmt.Sprintf("[%s] IP: %s, User-Agent: %s: %s", applicationType, detectedIP, detectedPlatform, content)
-	if logType == LogTypeInfo {
+
+	switch logType {
+	case LogTypeInfo:
 		facades.Log().Info(prettyPrint)
-	} else if logType == LogTypeDebug {
+	case LogTypeDebug:
 		facades.Log().Debug(prettyPrint)
-	} else if logType == LogTypeWarn {
+	case LogTypeWarn:
 		facades.Log().Warning(prettyPrint)
-	} else if logType == LogTypeError {
+	case LogTypeError:
 		facades.Log().Error(prettyPrint)
-	} else if logType == LogTypeFatal {
+	case LogTypeFatal:
 		facades.Log().Fatal(prettyPrint)
+	default:
+		facades.Log().Info(prettyPrint)
 	}
 
 	url := facades.Config().GetString("WATT_LOG_CREATE_URL", "")
