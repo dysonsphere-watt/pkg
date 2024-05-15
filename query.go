@@ -14,14 +14,9 @@ type PageInfo struct {
 // Helper function to allow users to write query functions faster
 func QueryAllPaginator(query orm.Query, keyWord string, keyFields []string, pageInfo *PageInfo, resultPtr any, totalPtr *int64) error {
 	if keyWord != "" {
-		where := false
 		wildcardKW := "%" + keyWord + "%"
 		for _, field := range keyFields {
-			if where {
-				query = query.OrWhere(fmt.Sprintf("%s LIKE ?", field), wildcardKW)
-			} else {
-				query = query.Where(fmt.Sprintf("%s LIKE ?", field), wildcardKW)
-			}
+			query = query.OrWhere(fmt.Sprintf("%s LIKE ?", field), wildcardKW)
 		}
 	}
 
