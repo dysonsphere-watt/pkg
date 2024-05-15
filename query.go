@@ -11,15 +11,8 @@ type PageInfo struct {
 	PageSize uint64
 }
 
-type QueryRequest interface {
-	GetKeyWord() string
-	GetPageInfo() *PageInfo
-}
-
 // Helper function to allow users to write query functions faster
-func QueryAllPaginator[T QueryRequest](query orm.Query, req T, keyFields []string, results *any, totalPtr *int64) error {
-	keyWord, pageInfo := req.GetKeyWord(), req.GetPageInfo()
-
+func QueryAllPaginator(query orm.Query, keyWord string, keyFields []string, pageInfo *PageInfo, resultPtr any, totalPtr *int64) error {
 	if keyWord != "" {
 		where := false
 		wildcardKW := "%" + keyWord + "%"
@@ -32,9 +25,6 @@ func QueryAllPaginator[T QueryRequest](query orm.Query, req T, keyFields []strin
 		}
 	}
 
-	if pageInfo == nil {
-		pageInfo = &PageInfo{Page: 1, PageSize: 10}
-	}
 	if pageInfo.Page == 0 {
 		pageInfo.Page = 1
 	}
@@ -42,7 +32,7 @@ func QueryAllPaginator[T QueryRequest](query orm.Query, req T, keyFields []strin
 		pageInfo.PageSize = 10
 	}
 
-	err := query.Paginate(int(pageInfo.Page), int(pageInfo.PageSize), results, totalPtr)
+	err := query.Paginate(int(pageInfo.Page), int(pageInfo.PageSize), resultPtr, totalPtr)
 	if err != nil {
 		return err
 	}
