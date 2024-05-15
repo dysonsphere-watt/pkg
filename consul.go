@@ -43,7 +43,11 @@ func Register(bodyMaxSize int) *server.Hertz {
 	serviceHost := cfg.GetString("APP_URL", "http://localhost")
 	servicePort := cfg.GetString("APP_PUBLIC_PORT", "80")
 	addr := net.JoinHostPort(serviceHost, servicePort)
-	r = consul.NewConsulRegister(consulClient)
+	r = consul.NewConsulRegister(consulClient, consul.WithCheck(&consulapi.AgentServiceCheck{
+		Interval:                       "10s",
+		Timeout:                        "5s",
+		DeregisterCriticalServiceAfter: "1m",
+	}))
 	info = &registry.Info{
 		ServiceName: cfg.GetString("APP_MODULE", "Demo"),
 		Addr:        utils.NewNetAddr("tcp", addr),
