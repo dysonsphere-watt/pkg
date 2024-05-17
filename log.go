@@ -35,10 +35,11 @@ type LogBody struct {
 }
 
 // Logs both locally and to a distributed log server
-func DistLog(logType LogType, c *app.RequestContext, path, reqBody, content string, userID, robotID, bookingID, orderID int32) {
+func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, userID, robotID, bookingID, orderID int32) {
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
 	detectedIP := c.ClientIP()
 	detectedPlatform := string(c.UserAgent())
+	path := string(c.Path())
 
 	prettyPrint := fmt.Sprintf("[%s] IP: %s, User-Agent: %s: %s", applicationType, detectedIP, detectedPlatform, content)
 
