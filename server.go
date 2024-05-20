@@ -5,11 +5,15 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/config"
 	"github.com/cloudwego/hertz/pkg/network"
 	"github.com/goravel/framework/facades"
 	"github.com/hertz-contrib/cors"
+	"github.com/hertz-contrib/swagger"
+
+	swaggerfiles "github.com/swaggo/files"
 )
 
 // Create a Hertz server instance with our preset parameters
@@ -58,4 +62,14 @@ func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 // svrconn -- just used self
 func svrconn(c context.Context, _ network.Conn) context.Context {
 	return c
+}
+
+func LinkSwagger(h *server.Hertz, pathPrefix string) {
+	url := swagger.URL(pathPrefix + "/docs/doc.json")
+
+	h.GET(pathPrefix+"/docs/*any", swagger.WrapHandler(swaggerfiles.Handler, url))
+
+	h.GET(pathPrefix+"/docs", func(ctx context.Context, c *app.RequestContext) {
+		c.Redirect(302, []byte(pathPrefix+"/docs/index.html"))
+	})
 }
