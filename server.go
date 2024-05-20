@@ -6,36 +6,46 @@ import (
 	"strings"
 
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/cloudwego/hertz/pkg/common/config"
 	"github.com/cloudwego/hertz/pkg/network"
 	"github.com/goravel/framework/facades"
 	"github.com/hertz-contrib/cors"
 )
 
-func Boot(bodyMaxSize int) *server.Hertz {
-
+// Create a Hertz server instance with our preset parameters
+func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 	// Load the server config
-	con := facades.Config()
-	s := "0.0.0.0:" + con.GetString("APP_PORT")
+	cfg := facades.Config()
+	s := "0.0.0.0:" + cfg.GetString("APP_PORT")
 
-	if facades.Config().GetString("CONSUL_HOST") != "" {
-		fmt.Println("Registering services to Consul")
-		h = Register(bodyMaxSize)
-	} else {
-		fmt.Println("Skipping Consul service registration")
-		h = server.Default(
-			server.WithHostPorts(s),
-			server.WithRedirectTrailingSlash(false),
-			server.WithOnConnect(svrconn),
-			server.WithMaxRequestBodySize(bodyMaxSize),
-		)
+	serverOptions := []config.Option{
+		server.WithHostPorts(s),
+		server.WithRedirectTrailingSlash(false),
+		server.WithOnConnect(svrconn),
+		server.WithMaxRequestBodySize(bodyMaxSize),
 	}
 
-	// set cors
-	var corsc = con.Get("corscfg")
+	if facades.Config().GetBool("CONSUL_REGISTER", false) {
+		fmt.Println("Registering services to Consul...")
 
-	// 转换
+		consulOpt, err := ConsulOption()
+		if err != nil {
+			facades.Log().Errorf("Error with Consul registration: %s", err.Error())
+			return nil
+		}
+
+		serverOptions = append(serverOptions, consulOpt)
+	} else {
+		facades.Log().Info("Skipping Consul service registration...")
+	}
+
+	h := server.Default(serverOptions...)
+
+	// Setup CORS
+	var corsc = cfg.Get("corscfg")
 	cor, ok := corsc.(cors.Config)
 	if ok {
+		// CORS configuration is set in the microservice's /config/cors.go file
 		// 跨域等等头部设置在配置文件 /config/cors.go中
 		h.Use(cors.New(cor))
 	}
