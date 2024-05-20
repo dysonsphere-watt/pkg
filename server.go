@@ -59,17 +59,18 @@ func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 	return h
 }
 
-// svrconn -- just used self
-func svrconn(c context.Context, _ network.Conn) context.Context {
-	return c
-}
-
+// Attach swagger documentation to the Hertz instance
 func LinkSwagger(h *server.Hertz, pathPrefix string) {
 	url := swagger.URL(pathPrefix + "/docs/doc.json")
 
 	h.GET(pathPrefix+"/docs/*any", swagger.WrapHandler(swaggerfiles.Handler, url))
 
-	h.GET(pathPrefix+"/docs", func(ctx context.Context, c *app.RequestContext) {
-		c.Redirect(302, []byte(pathPrefix+"/docs/index.html"))
+	h.GET(pathPrefix+"/docs", func(_ context.Context, c *app.RequestContext) {
+		c.Redirect(301, []byte(pathPrefix+"/docs/index.html"))
 	})
+}
+
+// svrconn -- just used self
+func svrconn(c context.Context, _ network.Conn) context.Context {
+	return c
 }
