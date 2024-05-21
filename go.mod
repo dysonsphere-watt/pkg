@@ -4,6 +4,7 @@ go 1.21.5
 
 require (
 	github.com/cloudwego/hertz v0.8.1
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/goravel/framework v1.13.7
 	github.com/hashicorp/consul/api v1.28.2
 	github.com/hertz-contrib/cors v0.1.0
