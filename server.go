@@ -64,18 +64,19 @@ func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 // Assumes you have `import _ "dsadmin/docs"` in the file calling this.
 func LinkSwagger(h *server.Hertz, pathPrefix string) {
 	env := strings.TrimSpace(strings.ToLower(facades.Config().GetString("APP_ENV", "unset")))
-	if env == "local" || env == "dev" {
-		facades.Log().Info("Linking swagger documentation")
-		url := swagger.URL(pathPrefix + "/docs/doc.json")
-
-		h.GET(pathPrefix+"/docs/*any", swagger.WrapHandler(swaggerfiles.Handler, url))
-
-		h.GET(pathPrefix+"/docs", func(_ context.Context, c *app.RequestContext) {
-			c.Redirect(301, []byte(pathPrefix+"/docs/index.html"))
-		})
-	} else {
+	if env != "local" && env != "dev" {
 		facades.Log().Infof("Environment is '%s', not linking swagger documentation", env)
+		return
 	}
+
+	facades.Log().Info("Linking swagger documentation")
+	url := swagger.URL(pathPrefix + "/docs/doc.json")
+
+	h.GET(pathPrefix+"/docs/*any", swagger.WrapHandler(swaggerfiles.Handler, url))
+
+	h.GET(pathPrefix+"/docs", func(_ context.Context, c *app.RequestContext) {
+		c.Redirect(301, []byte(pathPrefix+"/docs/index.html"))
+	})
 }
 
 // svrconn -- just used self
