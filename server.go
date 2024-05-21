@@ -61,6 +61,7 @@ func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 
 // Attach swagger documentation to the Hertz instance.
 // Only attach if environment is local or development.
+// Assumes you have `import _ "dsadmin/docs"` in the file calling this.
 func LinkSwagger(h *server.Hertz, pathPrefix string) {
 	env := strings.TrimSpace(strings.ToLower(facades.Config().GetString("APP_ENV", "unset")))
 	if env == "local" || env == "dev" {
