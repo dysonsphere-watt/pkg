@@ -59,15 +59,22 @@ func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 	return h
 }
 
-// Attach swagger documentation to the Hertz instance
+// Attach swagger documentation to the Hertz instance.
+// Only attach if environment is local or development.
 func LinkSwagger(h *server.Hertz, pathPrefix string) {
-	url := swagger.URL(pathPrefix + "/docs/doc.json")
+	env := strings.TrimSpace(strings.ToLower(facades.Config().GetString("APP_ENV", "unset")))
+	if env == "local" || env == "dev" {
+		facades.Log().Info("Linking swagger documentation")
+		url := swagger.URL(pathPrefix + "/docs/doc.json")
 
-	h.GET(pathPrefix+"/docs/*any", swagger.WrapHandler(swaggerfiles.Handler, url))
+		h.GET(pathPrefix+"/docs/*any", swagger.WrapHandler(swaggerfiles.Handler, url))
 
-	h.GET(pathPrefix+"/docs", func(_ context.Context, c *app.RequestContext) {
-		c.Redirect(301, []byte(pathPrefix+"/docs/index.html"))
-	})
+		h.GET(pathPrefix+"/docs", func(_ context.Context, c *app.RequestContext) {
+			c.Redirect(301, []byte(pathPrefix+"/docs/index.html"))
+		})
+	} else {
+		facades.Log().Infof("Environment is '%s', not linking swagger documentation", env)
+	}
 }
 
 // svrconn -- just used self
