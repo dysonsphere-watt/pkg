@@ -2,14 +2,18 @@ package pkg
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/goravel/framework/contracts/database/orm"
+	"github.com/goravel/framework/facades"
 )
 
 type PageInfo struct {
 	Page     uint64
 	PageSize uint64
 }
+
+const dbCachePrefix = "WATT_DB_CACHE_"
 
 // Helper function to allow users to write query functions faster
 func QueryAllPaginator(query orm.Query, keyWord string, keyFields []string, pageInfo *PageInfo, resultPtr any, totalPtr *int64) error {
@@ -32,5 +36,41 @@ func QueryAllPaginator(query orm.Query, keyWord string, keyFields []string, page
 		return err
 	}
 
+	return nil
+}
+
+func CachedOrmQuerySingle(id string, query orm.Query, result any) error {
+	key := dbCachePrefix + id
+
+	if facades.Cache().Has(key) {
+		res := facades.Cache().Get(key)
+		result = &res
+		return nil
+	}
+
+	err := query.First(result)
+	if err != nil {
+		return err
+	}
+
+	facades.Cache().Put(key, result, time.Hour*6)
+	return nil
+}
+
+func CachedOrmQueryMulti(id string, query orm.Query, result any) error {
+	key := dbCachePrefix + id
+
+	if facades.Cache().Has(key) {
+		res := facades.Cache().Get(key)
+		result = &res
+		return nil
+	}
+
+	err := query.Find(result)
+	if err != nil {
+		return err
+	}
+
+	facades.Cache().Put(key, result, time.Hour*6)
 	return nil
 }
