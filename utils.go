@@ -5,16 +5,17 @@ import (
 	"time"
 )
 
-const timeDtLayout = "01-01-2010 %s"
+const dateTimeFmt = "01-01-2010 %s"
 const timeLayout = "15:04"
 const dateLayout = "02-01-2006"
+const dateTimeLayout = "02-01-2006 15:04"
 
 // Converts 24 hour time in the format "HH:mm" to a time.Time object.
 // Set dt to true if the date is required like for MySQL.
 func StringToTime(timeStr string, dt bool) (time.Time, error) {
 	if dt {
-		timeStr = fmt.Sprintf(timeDtLayout, timeStr)
-		return time.Parse(dateLayout, timeStr)
+		timeStr = fmt.Sprintf(dateTimeFmt, timeStr)
+		return time.Parse(dateTimeLayout, timeStr)
 	}
 	return time.Parse(timeLayout, timeStr)
 }
