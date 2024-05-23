@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const timeDtLayout = "2010-01-01 %s"
+const timeDtLayout = "01-01-2010 %s"
 const timeLayout = "15:04"
 const dateLayout = "02-01-2006"
 
@@ -14,6 +14,7 @@ const dateLayout = "02-01-2006"
 func StringToTime(timeStr string, dt bool) (time.Time, error) {
 	if dt {
 		timeStr = fmt.Sprintf(timeDtLayout, timeStr)
+		return time.Parse(dateLayout, timeStr)
 	}
 	return time.Parse(timeLayout, timeStr)
 }
