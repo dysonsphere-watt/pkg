@@ -25,6 +25,7 @@ type LogBody struct {
 	LogType          string `json:"log_type"`
 	DetectedIP       string `json:"detected_ip"`
 	DetectedPlatform string `json:"detected_platform"`
+	Method           string `json:"method"`
 	Path             string `json:"path"`
 	RequestBody      string `json:"request_body"`
 	Content          string `json:"content"`
@@ -39,6 +40,7 @@ func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, us
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
 	detectedIP := c.ClientIP()
 	detectedPlatform := string(c.UserAgent())
+	method := string(c.Method())
 	path := string(c.Path())
 
 	prettyPrint := fmt.Sprintf("[%s] IP: %s, User-Agent: %s: %s", applicationType, detectedIP, detectedPlatform, content)
@@ -69,6 +71,7 @@ func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, us
 		LogType:          string(logType),
 		DetectedIP:       detectedIP,
 		DetectedPlatform: detectedPlatform,
+		Method:           method,
 		Path:             path,
 		RequestBody:      reqBody,
 		Content:          content,
