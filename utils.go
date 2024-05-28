@@ -5,10 +5,10 @@ import (
 	"time"
 )
 
-const dateTimeFmt = "01-01-2010 %s"
+const dateTimeFmt = "2010-01-01 %s"
 const timeLayout = "15:04"
-const dateLayout = "02-01-2006"
-const dateTimeLayout = "02-01-2006 15:04"
+const dateLayout = "2006-01-02"
+const dateTimeLayout = "2006-01-02 15:04"
 
 // Converts 24 hour time in the format "HH:mm" to a time.Time object.
 // Set dt to true if the date is required like for MySQL.
@@ -25,13 +25,13 @@ func TimeToString(t time.Time) string {
 	return t.Format(timeLayout)
 }
 
-// Converts a date string in the format "dd-MM-YYYY" to a time.Time object
+// Converts a date string in the format "YYYY-MM-dd" to a time.Time object
 func StringToDate(dateStr string) (time.Time, error) {
 	t, err := time.Parse(dateLayout, dateStr)
 	return t, err
 }
 
-// Converts a time.Time object to a date string in the format "dd-MM-YYYY"
+// Converts a time.Time object to a date string in the format "YYYY-MM-dd"
 func DateToString(t time.Time) string {
 	return t.Format(dateLayout)
 }
