@@ -35,3 +35,12 @@ func StringToDate(dateStr string) (time.Time, error) {
 func DateToString(t time.Time) string {
 	return t.Format(dateLayout)
 }
+
+// Ternary operator because go doesn't provide one because code cleanliness.
+// DO NOT NEST unless you like dirty code.
+func Ternary[T any](p bool, a, b T) T {
+	if p {
+		return a
+	}
+	return b
+}
