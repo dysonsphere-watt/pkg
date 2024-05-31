@@ -9,8 +9,8 @@ import (
 )
 
 type PageInfo struct {
-	Page     uint64
-	PageSize uint64
+	Page     int64
+	PageSize int64
 }
 
 const dbCachePrefix = "WATT_DB_CACHE_"
