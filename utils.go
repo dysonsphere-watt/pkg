@@ -36,6 +36,11 @@ func DateToString(t time.Time) string {
 	return t.Format(dateLayout)
 }
 
+// Converts a time.Time object to a datetime string in the format "YYYY-MM-dd HH:mm"
+func DateTimeToString(t time.Time) string {
+	return t.Format(dateTimeLayout)
+}
+
 // Ternary operator because go doesn't provide one because code cleanliness.
 // DO NOT NEST unless you like dirty code.
 func Ternary[T any](p bool, a, b T) T {
