@@ -5,3 +5,11 @@ type RobotUpdate struct {
 	RobotID           int32 `json:"robot_id"`
 	ReservationStatus int32 `json:"reservation_status"`
 }
+
+type ToRobotMQTTMessage struct {
+	TaskID int32 `json:"task_id"`
+}
+
+type FromRobotMQTTMessage struct {
+	Status int32 `json:"status"`
+}
