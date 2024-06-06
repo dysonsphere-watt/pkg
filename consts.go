@@ -8,6 +8,7 @@ const (
 	OrderPendingRefund     = 90 // User requested refund for order
 	OrderRefunded          = 91 // Order has been refunded
 	OrderPartiallyRefunded = 92 // Order has been partially refunded
+	OrderRefundFailed      = 93 // Order refund request failed
 	OrderCancalled         = 99 // Order cancelled
 
 	ReservationCreated                     = 1  // Just created reservation row
