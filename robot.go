@@ -7,9 +7,11 @@ type RobotUpdate struct {
 }
 
 type ToRobotMQTTMessage struct {
-	TaskID int32 `json:"task_id"`
+	TaskID  int32  `json:"task_id"`
+	Payload []byte `json:"payload"`
 }
 
 type FromRobotMQTTMessage struct {
-	Status int32 `json:"status"`
+	Status  int32  `json:"status"`
+	Payload []byte `json:"payload"`
 }
