@@ -37,6 +37,10 @@ type LogBody struct {
 
 // Logs both locally and to a distributed log server
 func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, userID, robotID, bookingID, orderID int32) {
+	if c == nil {
+		c = &app.RequestContext{}
+	}
+
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
 	detectedIP := c.ClientIP()
 	detectedPlatform := string(c.UserAgent())
