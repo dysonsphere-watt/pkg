@@ -24,4 +24,9 @@ const (
 	ReservationFailed                      = 90 // Something unexpected happened and caused the reservation to fail
 	ReservationCancelledByUser             = 98 // User cancelled reservation
 	ReservationCancelledBySystem           = 99 // Fatal error caught that caused reservation to be cancelled
+
+	RobotDisabled    = 0 // Robot is unusable
+	RobotEnabled     = 1 // Robot is ready for jobs
+	RobotBusy        = 2 // Robot is assigned a job
+	RobotMaintenance = 3 // Robot is down for maintenance
 )
