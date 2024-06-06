@@ -25,8 +25,19 @@ const (
 	ReservationCancelledByUser             = 98 // User cancelled reservation
 	ReservationCancelledBySystem           = 99 // Fatal error caught that caused reservation to be cancelled
 
-	RobotDisabled    = 0 // Robot is unusable
-	RobotEnabled     = 1 // Robot is ready for jobs
-	RobotBusy        = 2 // Robot is assigned a job
-	RobotMaintenance = 3 // Robot is down for maintenance
+	RobotTaskFindParking   = 1  // Instruct robot to find a parking space
+	RobotTaskUserArrived   = 2  // Instruct robot that user has arrived at parking space
+	RobotTaskBeginCharging = 3  // Instruct robot to allow charging
+	RobotTaskStopCharging  = 4  // Instruct robot to stop charging
+	RobotTaskReturn        = 5  // Instruct robot to return to holding area
+	RobotTaskGenQRCode     = 10 // Instruct robot to generate QR code to begin charging
+
+	RobotDisabled         = 0 // Robot indicates it is disabled (Probably unused)
+	RobotAvailable        = 1 // Robot indicates it is available for jobs
+	RobotMaintenance      = 2 // Robot indicates it is under maintenance (Probably unused)
+	RobotFindingParking   = 3 // Robot indicates it is currently finding a parking space
+	RobotParked           = 4 // Robot indicates it has found a parking space and is parked
+	RobotCharging         = 5 // Robot indicates it is currently charging the vehicle
+	RobotFinishedCharging = 6 // Robot indicates it has finished charging
+	RobotReturning        = 7 // Robot indicates it is currently returning to the holding area
 )
