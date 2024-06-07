@@ -1,6 +1,8 @@
 package pkg
 
 const (
+	// Possible statuses for the `order` rows
+	//
 	OrderCreated           = 1  // Order just created. This status probably won't be used
 	OrderPendingPayment    = 2  // Order created, awaiting payment
 	OrderFailedPayment     = 3  // Payment attempted but failed
@@ -11,6 +13,8 @@ const (
 	OrderRefundFailed      = 93 // Order refund request failed
 	OrderCancalled         = 99 // Order cancelled
 
+	// Possible statuses for the `reservation` rows
+	//
 	ReservationCreated                     = 1  // Just created reservation row
 	ReservationOrderFailed                 = 2  // Failed to create order row
 	ReservationPendingOrderSuccess         = 3  // Awaiting payment
@@ -25,6 +29,8 @@ const (
 	ReservationCancelledByUser             = 98 // User cancelled reservation
 	ReservationCancelledBySystem           = 99 // Fatal error caught that caused reservation to be cancelled
 
+	// Task IDs to be sent to the robutt from the microservice
+	//
 	RobotTaskFindParking   = 1  // Instruct robot to find a parking space
 	RobotTaskUserArrived   = 2  // Instruct robot that user has arrived at parking space (Move out of the way)
 	RobotTaskUserParked    = 3  // Instruct robot that user has parked in the parking space (Move close to the car)
@@ -33,12 +39,18 @@ const (
 	RobotTaskReturn        = 6  // Instruct robot to return to holding area
 	RobotTaskGenQRCode     = 10 // Instruct robot to generate QR code to begin charging
 
-	RobotDisabled         = 0 // Robot indicates it is disabled (Probably unused)
-	RobotAvailable        = 1 // Robot indicates it is available for jobs
-	RobotMaintenance      = 2 // Robot indicates it is under maintenance (Probably unused)
-	RobotFindingParking   = 3 // Robot indicates it is currently finding a parking space
-	RobotParked           = 4 // Robot indicates it has found a parking space and is parked
-	RobotCharging         = 5 // Robot indicates it is currently charging the vehicle
-	RobotFinishedCharging = 6 // Robot indicates it has finished charging
-	RobotReturning        = 7 // Robot indicates it is currently returning to the holding area
+	// Statuses expected to receive from the robutt
+	//
+	RobotDisabled         = 0  // Robot indicates it is disabled (Probably unused)
+	RobotAvailable        = 1  // Robot indicates it is available for jobs
+	RobotMaintenance      = 2  // Robot indicates it is under maintenance (Probably unused)
+	RobotFindingParking   = 3  // Robot indicates it is currently finding a parking space
+	RobotParked           = 4  // Robot indicates it has found a parking space and is parked
+	RobotMakingWayParking = 5  // Robot indicates it is making way for the user to park
+	RobotMadeWay          = 6  // Robot indicates it has made way for user to park
+	RobotMovingClose      = 7  // Robot indicates that it is moving close to the user's vehicle for charging
+	RobotReadyForCharging = 8  // Robot indicates that it is near the user's vehicle and is awaiting QR code scan
+	RobotCharging         = 9  // Robot indicates it is currently charging the vehicle
+	RobotFinishedCharging = 10 // Robot indicates it has finished charging
+	RobotReturning        = 11 // Robot indicates it is currently returning to the holding area
 )
