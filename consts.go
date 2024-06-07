@@ -53,4 +53,5 @@ const (
 	RobotCharging         = 9  // Robot indicates it is currently charging the vehicle
 	RobotFinishedCharging = 10 // Robot indicates it has finished charging
 	RobotReturning        = 11 // Robot indicates it is currently returning to the holding area
+	RobotDisconnected     = 98 // Robot unexpectedly disconnected from MQTT. Used in the last will payload
 )
