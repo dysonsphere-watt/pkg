@@ -21,10 +21,11 @@ const (
 	ReservationPendingRobotAssignment      = 4  // Order paid, awaiting to assign job to robot
 	ReservationFindingLot                  = 5  // Robot assigned and is finding free parking space
 	ReservationAwaitingUser                = 6  // Robot found parking space, awaiting user to arrive
-	ReservationPendingChargingConfirmation = 7  // If user arrived and has charging booked, wait for QR code scan
-	ReservationCharging                    = 8  // QR code scanned, charging active for duration booked
-	ReservationCompleted                   = 9  // Robot has finished its duties
-	ReservationReviewed                    = 10 // User has made a review
+	ReservationAwaitingUserPark            = 7  // Robot moved aside for user to park, waiting for parking confirmation
+	ReservationPendingChargingConfirmation = 8  // If user arrived and has charging booked, wait for QR code scan
+	ReservationCharging                    = 9  // QR code scanned, charging active for duration booked
+	ReservationCompleted                   = 10 // Robot has finished its duties
+	ReservationReviewed                    = 11 // User has made a review
 	ReservationFailed                      = 90 // Something unexpected happened and caused the reservation to fail
 	ReservationCancelledByUser             = 98 // User cancelled reservation
 	ReservationCancelledBySystem           = 99 // Fatal error caught that caused reservation to be cancelled
