@@ -41,6 +41,20 @@ func DateTimeToString(t time.Time) string {
 	return t.Format(dateTimeLayout)
 }
 
+// Takes a date and time, both being time.Time objects and combines the two.
+// Accepts an IANA timezone name to offset the time.
+func CombineDateAndTime(date, t time.Time, ianaTz string) time.Time {
+	year, month, day := date.Date()
+	hour, min, sec := t.Clock()
+
+	loc, err := time.LoadLocation(ianaTz)
+	if err != nil {
+		loc = date.Location()
+	}
+
+	return time.Date(year, month, day, hour, min, sec, 0, loc)
+}
+
 // Ternary operator because go doesn't provide one because code cleanliness.
 // DO NOT NEST unless you like dirty code.
 func Ternary[T any](p bool, a, b T) T {
