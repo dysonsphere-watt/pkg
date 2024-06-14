@@ -21,7 +21,7 @@ func CreateHzInstance(bodyMaxSize int) *server.Hertz {
 	// Load the server config
 	cfg := facades.Config()
 
-	s := "0.0.0.0" + cfg.GetString("APP_PORT")
+	s := "0.0.0.0:" + cfg.GetString("APP_PORT")
 	serverOptions := []config.Option{
 		server.WithHostPorts(s),
 		server.WithRedirectTrailingSlash(false),
