@@ -55,4 +55,9 @@ const (
 	RobotFinishedCharging = 10 // Robot indicates it has finished charging
 	RobotReturning        = 11 // Robot indicates it is currently returning to the holding area
 	RobotDisconnected     = 98 // Robot unexpectedly disconnected from MQTT. Used in the last will payload
+
+	// MQTT Topic types
+	MQTTTopicTypeIdle         = 0 // Empty status
+	MQTTTopicTypeRobotStatus  = 1 // Topic is used for robot status updates
+	MQTTTopicTypeRobotMetrics = 2 // Topic is used for robot metrics
 )
