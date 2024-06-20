@@ -5,6 +5,10 @@ const (
 	ServicePricingTypePerBooking = 1 // Price is static for the reservation
 	ServicePricingTypePerMinute  = 2 // Price depends on how long the reservation is
 
+	// Coupon discount types
+	CouponDiscountFlat    = 1 // Flat fee discount
+	CouponDiscountPercent = 2 // Percentage discount
+
 	// Possible statuses for the `order` rows
 	//
 	OrderCreated           = 1  // Order just created. This status probably won't be used
