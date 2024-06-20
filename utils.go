@@ -36,7 +36,7 @@ func DateToString(t time.Time) string {
 	return t.Format(dateLayout)
 }
 
-// Converts a date time string in the format "YYYY-MM-dd HH:mm:ss" to a time.Time object
+// Converts a date time string in the format "YYYY-MM-dd HH:mm" to a time.Time object
 func StringToDateTime(dateTimeStr string) (time.Time, error) {
 	t, err := time.Parse(dateTimeLayout, dateTimeStr)
 	return t, err
