@@ -9,6 +9,10 @@ const (
 	CouponDiscountFlat    = 1 // Flat fee discount
 	CouponDiscountPercent = 2 // Percentage discount
 
+	// Coupon statuses
+	CouponDisabled = -1
+	CouponEnabled  = 1
+
 	// Possible statuses for the `order` rows
 	//
 	OrderCreated           = 1  // Order just created. This status probably won't be used
@@ -50,7 +54,7 @@ const (
 
 	// Statuses expected to receive from the robutt
 	//
-	RobotDisabled         = 0  // Robot indicates it is disabled (Probably unused)
+	RobotDisabled         = -1 // Robot indicates it is disabled (Probably unused)
 	RobotAvailable        = 1  // Robot indicates it is available for jobs
 	RobotMaintenance      = 2  // Robot indicates it is under maintenance (Probably unused)
 	RobotFindingParking   = 3  // Robot indicates it is currently finding a parking space
