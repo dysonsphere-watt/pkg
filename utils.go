@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -59,6 +60,32 @@ func CombineDateAndTime(date, t time.Time, ianaTz string) time.Time {
 	}
 
 	return time.Date(year, month, day, hour, min, sec, 0, loc)
+}
+
+// Converts a struct with all string fields into a map
+func StructToStrMap(obj interface{}) (map[string]string, error) {
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]string
+	err = json.Unmarshal(data, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// Converts a struct into a JSON string
+func StructToStr(obj interface{}) (string, error) {
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return "", err
+	}
+
+	return string(data), nil
 }
 
 // Ternary operator because go doesn't provide one because code cleanliness.
