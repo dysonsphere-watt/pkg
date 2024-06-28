@@ -17,6 +17,11 @@ const (
 	PaymentSucceeded = 1
 	PaymentFailed    = -1
 
+	// Possible payment types
+	PaymentTypePayment       = 1
+	PaymentTypePartialRefund = 2
+	PaymentTypeFullRefund    = 3
+
 	// Possible statuses for the `order` rows
 	//
 	OrderCreated           = 1  // Order just created. This status probably won't be used
