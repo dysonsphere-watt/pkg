@@ -13,6 +13,10 @@ const (
 	CouponDisabled = -1
 	CouponEnabled  = 1
 
+	// Payment statuses
+	PaymentSucceeded = 1
+	PaymentFailed    = -1
+
 	// Possible statuses for the `order` rows
 	//
 	OrderCreated           = 1  // Order just created. This status probably won't be used
