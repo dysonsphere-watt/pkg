@@ -23,7 +23,7 @@ const (
 	OrderRefunded          = 91 // Order has been refunded
 	OrderPartiallyRefunded = 92 // Order has been partially refunded
 	OrderRefundFailed      = 93 // Order refund request failed
-	OrderCancalled         = 99 // Order cancelled
+	OrderCancelled         = 99 // Order cancelled
 
 	// Possible statuses for the `reservation` rows
 	//
