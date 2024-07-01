@@ -209,7 +209,7 @@ require (
 	gorm.io/driver/sqlserver v1.5.3 // indirect
 	gorm.io/gorm v1.25.10 // indirect
 	gorm.io/plugin/dbresolver v1.5.2 // indirect
-	modernc.org/libc v1.54.0 // indirect
+	modernc.org/libc v1.53.4 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/sqlite v1.30.1 // indirect
