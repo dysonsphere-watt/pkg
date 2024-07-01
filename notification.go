@@ -33,6 +33,8 @@ func SendPushNotification(pushType int32, identifier, title, body, imageURL stri
 
 	reqBody := PushNotificationBody{
 		Type:      pushType,
+		Token:     identifier,
+		Topic:     identifier,
 		Title:     title,
 		Body:      body,
 		ImageURL:  imageURL,
