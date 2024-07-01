@@ -81,4 +81,8 @@ const (
 	MQTTTopicTypeIdle         = 0 // Empty status
 	MQTTTopicTypeRobotStatus  = 1 // Topic is used for robot status updates
 	MQTTTopicTypeRobotMetrics = 2 // Topic is used for robot metrics
+
+	// Push notification types
+	PushNotificationToken = 1 // Send notification to a FCM token/user
+	PushNotificationTopic = 2 // Send notification to a user subscribed topic
 )

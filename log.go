@@ -1,12 +1,10 @@
 package pkg
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"net/http"
 
 	"github.com/cloudwego/hertz/pkg/app"
+	resty "github.com/go-resty/resty/v2"
 	"github.com/goravel/framework/facades"
 )
 
@@ -70,7 +68,7 @@ func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, us
 		return
 	}
 
-	body := LogBody{
+	logBody := LogBody{
 		ApplicationType:  applicationType,
 		LogType:          string(logType),
 		DetectedIP:       detectedIP,
@@ -84,24 +82,7 @@ func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, us
 		BookingID:        bookingID,
 		OrderID:          orderID,
 	}
-	jsonBody, err := json.Marshal(body)
-	if err != nil {
-		facades.Log().Error("Error marshaling JSON body: " + err.Error())
-		return
-	}
 
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(jsonBody))
-	if err != nil {
-		facades.Log().Error("Error creating HTTP request for logging: " + err.Error())
-		return
-	}
-	req.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		facades.Log().Error("Error sending HTTP request: " + err.Error())
-		return
-	}
-	defer resp.Body.Close()
+	client := resty.New()
+	client.R().SetBody(logBody).Post(url)
 }
