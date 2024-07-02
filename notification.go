@@ -30,7 +30,7 @@ type PushNotificationResponse struct {
 }
 
 // Send push notifications to topic
-func SendPushNotificationTopic(pushType int32, identifier, title, body, imageURL string) error {
+func SendPushNotificationTopic(identifier, title, body, imageURL string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOPIC_URL", "")
