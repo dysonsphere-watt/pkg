@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -14,6 +15,7 @@ type PushTopicBody struct {
 	Body      string `json:"body"`
 	ImageURL  string `json:"image_url"`
 	SharedKey string `json:"shared_key"`
+	DataStr   string `json:"data_str"`
 }
 
 type PushTokensBody struct {
@@ -22,6 +24,7 @@ type PushTokensBody struct {
 	Body      string   `json:"body"`
 	ImageURL  string   `json:"image_url"`
 	SharedKey string   `json:"shared_key"`
+	DataStr   string   `json:"data_str"`
 }
 
 type PushNotificationResponse struct {
@@ -30,12 +33,17 @@ type PushNotificationResponse struct {
 }
 
 // Send push notifications to topic
-func SendPushNotificationTopic(identifier, title, body, imageURL string) error {
+func SendPushNotificationTopic(identifier, title, body, imageURL string, data map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOPIC_URL", "")
 	if url == "" {
 		return errors.New("WATT_NOTIFICATION_PUSH_TOPIC_URL is not set, unable to send push notification")
+	}
+
+	dataBytes, err := json.Marshal(data)
+	if err != nil {
+		return errors.New("error converting \"data\" into a JSON string")
 	}
 
 	reqBody := PushTopicBody{
@@ -44,6 +52,7 @@ func SendPushNotificationTopic(identifier, title, body, imageURL string) error {
 		Body:      body,
 		ImageURL:  imageURL,
 		SharedKey: facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
+		DataStr:   string(dataBytes),
 	}
 
 	client := resty.New()
@@ -63,12 +72,17 @@ func SendPushNotificationTopic(identifier, title, body, imageURL string) error {
 }
 
 // Send push notifications to a bunch of tokens
-func SendPushNotificationTokens(tokens []string, title, body, imageURL string) error {
+func SendPushNotificationTokens(tokens []string, title, body, imageURL string, data map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOKENS_URL", "")
 	if url == "" {
 		return errors.New("WATT_NOTIFICATION_PUSH_TOKENS_URL is not set, unable to send push notification ")
+	}
+
+	dataBytes, err := json.Marshal(data)
+	if err != nil {
+		return errors.New("error converting \"data\" into a JSON string")
 	}
 
 	reqBody := PushTokensBody{
@@ -77,6 +91,7 @@ func SendPushNotificationTokens(tokens []string, title, body, imageURL string) e
 		Body:      body,
 		ImageURL:  imageURL,
 		SharedKey: facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
+		DataStr:   string(dataBytes),
 	}
 
 	client := resty.New()
