@@ -13,7 +13,13 @@ import (
 
 var azBlobClient *azblob.Client
 
+// Sets up the Azure Blob Storage client for file read/writes
 func SetupAzureBlob() error {
+	// For default credentials, ensure AZURE_CLIENT_ID and AZURE_TENANT_ID are set as environment variables
+	// Then depending on the type of authentication,
+	// `AZ_CLIENT_SECRET``
+	// or `AZURE_CLIENT_CERTIFICATE_PATH` and `AZURE_CLIENT_CERTIFICATE_PASSWORD`
+	// must be set.
 	azCred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return err
