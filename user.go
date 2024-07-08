@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/dysonsphere-watt/pkg/models"
 	"github.com/goravel/framework/facades"
 	"github.com/goravel/framework/http"
 )
@@ -41,4 +42,24 @@ func GetUserID(c *app.RequestContext) (int32, error) {
 		return 0, err
 	}
 	return userID, nil
+}
+
+func IsUserAdmin(c *app.RequestContext) bool {
+	userID, err := GetUserID(c)
+	if err != nil {
+		return false
+	}
+
+	var roleModel models.Role
+	err = facades.Orm().Query().
+		Model(&models.User{}).
+		Select("role.name").
+		Join("JOIN role ON role.id=user.role_id").
+		Where(&models.User{ID: userID}).
+		FirstOrFail(&roleModel)
+	if err != nil {
+		return false
+	}
+
+	return roleModel.Name == "Admin"
 }
