@@ -10,17 +10,17 @@ import (
 )
 
 type PushTopicBody struct {
-	Topic     string `json:"topic"`
-	Code      string `json:"code"`
-	SharedKey string `json:"shared_key"`
-	DataStr   string `json:"data_str"`
+	Topic        string `json:"topic"`
+	TemplateCode string `json:"template_code"`
+	SharedKey    string `json:"shared_key"`
+	DataStr      string `json:"data_str"`
 }
 
 type PushTokensBody struct {
-	Tokens    []string `json:"tokens"`
-	Code      string   `json:"code"`
-	SharedKey string   `json:"shared_key"`
-	DataStr   string   `json:"data_str"`
+	Tokens       []string `json:"tokens"`
+	TemplateCode string   `json:"template_code"`
+	SharedKey    string   `json:"shared_key"`
+	DataStr      string   `json:"data_str"`
 }
 
 type PushNotificationResponse struct {
@@ -29,7 +29,7 @@ type PushNotificationResponse struct {
 }
 
 // Send push notifications to topic
-func SendPushNotificationTopic(identifier, code string, data *map[string]string) error {
+func SendPushNotificationTopic(identifier, templateCode string, data *map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOPIC_URL", "")
@@ -43,10 +43,10 @@ func SendPushNotificationTopic(identifier, code string, data *map[string]string)
 	}
 
 	reqBody := PushTopicBody{
-		Topic:     identifier,
-		Code:      code,
-		SharedKey: facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
-		DataStr:   string(dataBytes),
+		Topic:        identifier,
+		TemplateCode: templateCode,
+		SharedKey:    facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
+		DataStr:      string(dataBytes),
 	}
 
 	client := resty.New()
@@ -66,7 +66,7 @@ func SendPushNotificationTopic(identifier, code string, data *map[string]string)
 }
 
 // Send push notifications to a bunch of tokens
-func SendPushNotificationTokens(tokens []string, code string, data *map[string]string) error {
+func SendPushNotificationTokens(tokens []string, templateCode string, data *map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOKENS_URL", "")
@@ -80,10 +80,10 @@ func SendPushNotificationTokens(tokens []string, code string, data *map[string]s
 	}
 
 	reqBody := PushTokensBody{
-		Tokens:    tokens,
-		Code:      code,
-		SharedKey: facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
-		DataStr:   string(dataBytes),
+		Tokens:       tokens,
+		TemplateCode: templateCode,
+		SharedKey:    facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
+		DataStr:      string(dataBytes),
 	}
 
 	client := resty.New()
