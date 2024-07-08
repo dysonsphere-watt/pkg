@@ -11,18 +11,14 @@ import (
 
 type PushTopicBody struct {
 	Topic     string `json:"topic"`
-	Title     string `json:"title"`
-	Body      string `json:"body"`
-	ImageURL  string `json:"image_url"`
+	Code      string `json:"code"`
 	SharedKey string `json:"shared_key"`
 	DataStr   string `json:"data_str"`
 }
 
 type PushTokensBody struct {
 	Tokens    []string `json:"tokens"`
-	Title     string   `json:"title"`
-	Body      string   `json:"body"`
-	ImageURL  string   `json:"image_url"`
+	Code      string   `json:"code"`
 	SharedKey string   `json:"shared_key"`
 	DataStr   string   `json:"data_str"`
 }
@@ -33,7 +29,7 @@ type PushNotificationResponse struct {
 }
 
 // Send push notifications to topic
-func SendPushNotificationTopic(identifier, title, body, imageURL string, data *map[string]string) error {
+func SendPushNotificationTopic(identifier, code string, data *map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOPIC_URL", "")
@@ -48,9 +44,7 @@ func SendPushNotificationTopic(identifier, title, body, imageURL string, data *m
 
 	reqBody := PushTopicBody{
 		Topic:     identifier,
-		Title:     title,
-		Body:      body,
-		ImageURL:  imageURL,
+		Code:      code,
 		SharedKey: facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
 		DataStr:   string(dataBytes),
 	}
@@ -72,7 +66,7 @@ func SendPushNotificationTopic(identifier, title, body, imageURL string, data *m
 }
 
 // Send push notifications to a bunch of tokens
-func SendPushNotificationTokens(tokens []string, title, body, imageURL string, data *map[string]string) error {
+func SendPushNotificationTokens(tokens []string, code string, data *map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOKENS_URL", "")
@@ -87,9 +81,7 @@ func SendPushNotificationTokens(tokens []string, title, body, imageURL string, d
 
 	reqBody := PushTokensBody{
 		Tokens:    tokens,
-		Title:     title,
-		Body:      body,
-		ImageURL:  imageURL,
+		Code:      code,
 		SharedKey: facades.Config().GetString("WATT_NOTIFICATION_SHARED_KEY"),
 		DataStr:   string(dataBytes),
 	}
