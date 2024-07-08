@@ -33,7 +33,7 @@ type PushNotificationResponse struct {
 }
 
 // Send push notifications to topic
-func SendPushNotificationTopic(identifier, title, body, imageURL string, data map[string]string) error {
+func SendPushNotificationTopic(identifier, title, body, imageURL string, data *map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOPIC_URL", "")
@@ -72,7 +72,7 @@ func SendPushNotificationTopic(identifier, title, body, imageURL string, data ma
 }
 
 // Send push notifications to a bunch of tokens
-func SendPushNotificationTokens(tokens []string, title, body, imageURL string, data map[string]string) error {
+func SendPushNotificationTokens(tokens []string, title, body, imageURL string, data *map[string]string) error {
 	var resBody PushNotificationResponse
 
 	url := facades.Config().GetString("WATT_NOTIFICATION_PUSH_TOKENS_URL", "")
