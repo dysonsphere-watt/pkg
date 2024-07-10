@@ -66,7 +66,7 @@ const (
 	//
 	RobotDisabled         = -1 // Robot indicates it is disabled (Probably unused)
 	RobotAvailable        = 1  // Robot indicates it is available for jobs
-	RobotMaintenance      = 2  // Robot indicates it is under maintenance (Probably unused)
+	RobotAssigned         = 2  // Robot indicates it has been assigned a reservation and is pending action
 	RobotFindingParking   = 3  // Robot indicates it is currently finding a parking space
 	RobotParked           = 4  // Robot indicates it has found a parking space and is parked
 	RobotMakingWayParking = 5  // Robot indicates it is making way for the user to park
@@ -76,6 +76,7 @@ const (
 	RobotCharging         = 9  // Robot indicates it is currently charging the vehicle
 	RobotFinishedCharging = 10 // Robot indicates it has finished charging
 	RobotReturning        = 11 // Robot indicates it is currently returning to the holding area
+	RobotMaintenance      = 90 // Robot indicates it is under maintenance (Probably unused)
 	RobotDisconnected     = 98 // Robot unexpectedly disconnected from MQTT. Used in the last will payload
 
 	// MQTT Topic types
