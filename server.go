@@ -17,11 +17,13 @@ import (
 )
 
 // Create a Hertz server instance with our preset parameters
-func CreateHzInstance(bodyMaxSize int) *server.Hertz {
+func CreateHzInstance() *server.Hertz {
 	// Load the server config
 	cfg := facades.Config()
 
 	s := "0.0.0.0:" + cfg.GetString("APP_PORT")
+	bodyMaxSize := cfg.GetInt("APP_MAX_REQUEST_SIZE", 4*1024*1024)
+
 	serverOptions := []config.Option{
 		server.WithHostPorts(s),
 		server.WithRedirectTrailingSlash(false),
