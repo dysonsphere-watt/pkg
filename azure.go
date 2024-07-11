@@ -38,6 +38,19 @@ func GetAzBlobClient() *azblob.Client {
 	return azBlobClient
 }
 
+// Uploads a buffer array to the container in Azure Blob Storage
+func UploadBuffer(container string, buffer []byte) (string, error) {
+	blobName := fmt.Sprintf("%s-%d", GenerateRandomAlphaNum(16), time.Now().Unix())
+
+	_, err := azBlobClient.UploadBuffer(context.TODO(), container, blobName, buffer, nil)
+	if err != nil {
+		return "", err
+	}
+
+	blobURL := fmt.Sprintf("%s%s/%s", azBlobClient.URL(), container, blobName)
+	return blobURL, nil
+}
+
 // Uploads a file to the container in Azure Blob Storage
 func UploadMultipartFile(container string, fileHeader *multipart.FileHeader) (string, error) {
 	blobName := fmt.Sprintf("%s-%d", GenerateRandomAlphaNum(16), time.Now().Unix())
