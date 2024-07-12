@@ -1,7 +1,9 @@
 package pkg
 
 import (
+	"errors"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/goravel/framework/contracts/database/orm"
@@ -14,6 +16,33 @@ type PageInfo struct {
 }
 
 const dbCachePrefix = "WATT_DB_CACHE_"
+
+func GetPageInfo(reqPageInfo interface{}) (*PageInfo, error) {
+	if reqPageInfo == nil {
+		return &PageInfo{Page: 1, PageSize: 10}, nil
+	}
+
+	val := reflect.ValueOf(reqPageInfo)
+	if val.Kind() != reflect.Struct {
+		return nil, fmt.Errorf("struct expected, received a %s", val.Kind().String())
+	}
+
+	pageField := val.FieldByName("Page")
+	if !pageField.IsValid() || pageField.Type().Kind() != reflect.Int64 {
+		return nil, errors.New("struct does not contain an int64 'Page' field")
+	}
+
+	pageSizeField := val.FieldByName("PageSize")
+	if !pageSizeField.IsValid() || pageSizeField.Type().Kind() != reflect.Int64 {
+		return nil, errors.New("struct does not contain an int64 'Page Size' field")
+	}
+
+	pageInfo := PageInfo{}
+	pageInfo.Page = Ternary(pageField.IsNil(), 1, pageField.Int())
+	pageInfo.PageSize = Ternary(pageSizeField.IsNil(), 10, pageSizeField.Int())
+
+	return &pageInfo, nil
+}
 
 // Helper function to allow users to write query functions faster
 func QueryAllPaginator(query orm.Query, keyWord string, keyFields []string, pageInfo *PageInfo, resultPtr any, totalPtr *int64) error {
