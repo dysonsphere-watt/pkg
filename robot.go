@@ -13,7 +13,7 @@ type QRCodeMessage struct {
 
 type ToRobotMQTTMessage struct {
 	TaskID  int32  `json:"task_id"`
-	Payload []byte `json:"payload"`
+	Payload []byte `json:"payload_b64"`
 }
 
 type FromRobotMQTTMessage struct {
