@@ -8,7 +8,7 @@ type RobotUpdate struct {
 
 type QRCodeMessage struct {
 	TaskID        int32  `json:"task_id"`
-	QRCodeContent string `json:"string"`
+	QRCodeContent string `json:"qr_code_content"`
 }
 
 type ToRobotMQTTMessage struct {
