@@ -6,6 +6,11 @@ type RobotUpdate struct {
 	ReservationStatus int32 `json:"reservation_status"`
 }
 
+type QRCodeMessage struct {
+	TaskID        int32  `json:"task_id"`
+	QRCodeContent string `json:"string"`
+}
+
 type ToRobotMQTTMessage struct {
 	TaskID  int32  `json:"task_id"`
 	Payload []byte `json:"payload"`
