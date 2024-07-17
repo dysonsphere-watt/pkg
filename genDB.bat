@@ -7,4 +7,4 @@ for /f "usebackq tokens=1,2 delims==" %%G in (".env") do (
 )
 
 rem Run cwgo model command with environment variables
-cwgo model --out_dir "./models/." --model_pkg models --db_type mysql --tables user --tables role --dsn "%DB_USERNAME%:%DB_PASSWORD%@tcp(%DB_HOST%:%DB_PORT%)/%DB_DATABASE%?charset=utf8&parseTime=True&loc=Local" --only_model "true"
+cwgo model --out_dir "./models/." --model_pkg models --db_type mysql --tables user --tables role --tables permission --dsn "%DB_USERNAME%:%DB_PASSWORD%@tcp(%DB_HOST%:%DB_PORT%)/%DB_DATABASE%?charset=utf8&parseTime=True&loc=Local" --only_model "true"
