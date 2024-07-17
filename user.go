@@ -65,22 +65,26 @@ func IsUserAdmin(c *app.RequestContext) bool {
 }
 
 func UserHasPermission(c *app.RequestContext, permissionType string) bool {
+	var permModel models.Permission
+
 	userID, err := GetUserID(c)
 	if err != nil {
 		return false
 	}
 
-	var permModel models.Permission
-	err = facades.Orm().Query().Model(&models.User{}).Select("permission.*").
-		Join("JOIN role r ON user.role_id=r.id").
-		Join("LEFT JOIN role_permission rp ON r.id=rp.role_id").
-		Join("JOIN permission p ON rp.permission_id=p.id").
-		Where(&models.Permission{Type: permissionType}).
-		Where(&models.User{ID: userID}).
-		FirstOrFail(&permModel)
+	err = facades.Orm().Query().Raw(`
+		SELECT *
+		FROM user u
+			JOIN role r ON u.role_id=r.id 
+			LEFT JOIN role_permission rp ON r.id=rp.role_id 
+			JOIN permission p ON rp.permission_id=p.id 
+		WHERE u.id=?
+			AND p.type=?
+	`, userID, permissionType).FirstOrFail(&permModel)
 	if err != nil {
 		return false
 	}
 
 	return permModel.Type == permissionType
 }
+
