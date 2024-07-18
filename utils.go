@@ -48,6 +48,18 @@ func DateTimeToString(t time.Time) string {
 	return t.Format(dateTimeLayout)
 }
 
+// Converts a date time string in the format "YYYY-MM-dd HH:mm" to a time.Time object
+// Accepts an IANA timezone name to offset the time.
+func StringToDateTimeTz(dateTimeStr string, ianaTz string) (time.Time, error) {
+	loc, err := time.LoadLocation(ianaTz)
+	if err != nil {
+		return time.Now(), err
+	}
+
+	t, err := time.ParseInLocation(dateTimeLayout, dateTimeStr, loc)
+	return t, err
+}
+
 // Takes a date and time, both being time.Time objects and combines the two.
 // Accepts an IANA timezone name to offset the time.
 func CombineDateAndTime(date, t time.Time, ianaTz string) time.Time {
