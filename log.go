@@ -39,6 +39,11 @@ func DistLog(logType LogType, c *app.RequestContext, reqBody, content string, us
 		c = &app.RequestContext{}
 	}
 
+	cUserID, err := GetUserID(c)
+	if err == nil && userID == 0 {
+		userID = cUserID
+	}
+
 	applicationType := facades.Config().GetString("APP_MODULE", "Watt-Generic")
 	detectedIP := c.ClientIP()
 	detectedPlatform := string(c.UserAgent())
