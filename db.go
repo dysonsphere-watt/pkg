@@ -3,6 +3,7 @@ package pkg
 import (
 	"errors"
 	"fmt"
+	"math"
 	"reflect"
 	"time"
 
@@ -21,7 +22,7 @@ func GetPageInfo(reqPageInfo interface{}) (*PageInfo, error) {
 	val := reflect.ValueOf(reqPageInfo)
 	if val.Kind() == reflect.Ptr {
 		if val.IsNil() {
-			return &PageInfo{Page: 1, PageSize: 10}, nil
+			return &PageInfo{Page: 1, PageSize: math.MaxInt64}, nil
 		}
 
 		val = val.Elem()
@@ -43,7 +44,7 @@ func GetPageInfo(reqPageInfo interface{}) (*PageInfo, error) {
 
 	pageInfo := PageInfo{
 		Page:     Ternary(pageField.Int() == 0, 1, pageField.Int()),
-		PageSize: Ternary(pageSizeField.Int() == 0, 10, pageSizeField.Int()),
+		PageSize: Ternary(pageSizeField.Int() == 0, math.MaxInt64, pageSizeField.Int()),
 	}
 	return &pageInfo, nil
 }
