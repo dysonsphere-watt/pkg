@@ -1,6 +1,19 @@
 package pkg
 
 const (
+	// Advertisement statuses
+	AdvertisementCreated             = 1  // On creation, probably unused
+	AdvertisementPendingPayment      = 2  // After creation, waiting for user to pay
+	AdvertisementPendingUpload       = 3  // After payment, waiting for media upload
+	AdvertisementPendingApproval     = 4  // After upload, waiting for admin or whoever to approve it to SCAP guidelines
+	AdvertisementPendingResubmission = 5  // On rejection, user is required to reupload the media file
+	AdvertisementPendingDistribution = 10 // On approval, distribution to ETV machines is required
+	AdvertisementDistributed         = 11 // On distribution, media *should* play
+	AdvertisementFinished            = 12 // After the advertisement campaign has ended
+	AdvertisementRefundRequested     = 89 // User requested refund
+	AdvertisementRefunded            = 90 // Refund went through
+	AdvertisementCancelled           = 99 // Advertisement cancelled due to various reasons
+
 	// Service Pricing Model pricing types
 	ServicePricingTypePerBooking = 1 // Price is static for the reservation
 	ServicePricingTypePerMinute  = 2 // Price depends on how long the reservation is
