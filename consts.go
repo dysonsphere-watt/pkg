@@ -100,4 +100,7 @@ const (
 	// Push notification types
 	PushNotificationToken = 1 // Send notification to a FCM token/user
 	PushNotificationTopic = 2 // Send notification to a user subscribed topic
+
+	OrderTypeBooking       = "booking"
+	OrderTypeAdvertisement = "advertisement"
 )
