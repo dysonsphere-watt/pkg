@@ -9,11 +9,11 @@ import (
 	"fmt"
 )
 
+const keyHex = "79697368656e67746563686e6f6c6f6779636f6d70616e793230313930343131"
+const ivHex = "79697368656e67746563684032303139"
+
 // AES encryption ETV uses before passing username/password to the login request
 func EtvEncrypt(s string) (string, error) {
-	keyHex := "79697368656e67746563686e6f6c6f6779636f6d70616e793230313930343131"
-	ivHex := "79697368656e67746563684032303139"
-
 	key, err := hex.DecodeString(keyHex)
 	if err != nil {
 		return "", err
@@ -38,10 +38,8 @@ func EtvEncrypt(s string) (string, error) {
 	return hex.EncodeToString(ciphertext), nil
 }
 
+// AES decryption ETV uses with the login response data
 func EtvDecrypt(cipherTextHex string) (string, error) {
-	keyHex := "79697368656e67746563686e6f6c6f6779636f6d70616e793230313930343131"
-	ivHex := "79697368656e67746563684032303139"
-
 	key, err := hex.DecodeString(keyHex)
 	if err != nil {
 		return "", fmt.Errorf("failed to decode key: %w", err)
