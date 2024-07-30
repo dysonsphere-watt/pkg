@@ -21,6 +21,23 @@ func StringToTime(timeStr string, dt bool) (time.Time, error) {
 	return time.Parse(timeLayout, timeStr)
 }
 
+// Converts 24 hour time in the format "HH:mm" to a time.Time object.
+// Set dt to true if the date is required like for MySQL.
+// Accepts an IANA timezone name to offset the time.
+func StringToTimeTz(timeStr string, dt bool, ianaTz string) (time.Time, error) {
+	loc, err := time.LoadLocation(ianaTz)
+	if err != nil {
+		return time.Now(), err
+	}
+
+	if dt {
+		timeStr = fmt.Sprintf(dateTimeFmt, timeStr)
+		return time.ParseInLocation(dateTimeLayout, timeStr, loc)
+	}
+
+	return time.ParseInLocation(timeLayout, timeStr, loc)
+}
+
 // Converts a time.Time object to a 24 hour string in the format "HH:mm"
 func TimeToString(t time.Time) string {
 	return t.Format(timeLayout)
@@ -30,6 +47,17 @@ func TimeToString(t time.Time) string {
 func StringToDate(dateStr string) (time.Time, error) {
 	t, err := time.Parse(dateLayout, dateStr)
 	return t, err
+}
+
+// Converts a date string in the format "YYYY-MM-dd" to a time.Time object.
+// Accepts an IANA timezone name to offset the time.
+func StringToDateTz(dateStr string, ianaTz string) (time.Time, error) {
+	loc, err := time.LoadLocation(ianaTz)
+	if err != nil {
+		return time.Now(), err
+	}
+
+	return time.ParseInLocation(dateLayout, dateStr, loc)
 }
 
 // Converts a time.Time object to a date string in the format "YYYY-MM-dd"
