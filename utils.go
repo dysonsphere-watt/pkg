@@ -180,7 +180,9 @@ func CheckEmptyFields(obj interface{}, parents, requiredFields []string) ([]stri
 		}
 
 		f := val.Field(i)
-		curTagSlice := append(parents, jsonTag)
+		curTagSlice := make([]string, len(parents)+1)
+		copy(curTagSlice, parents)
+		curTagSlice = append(curTagSlice, jsonTag)
 		curTag := strings.Join(curTagSlice, ".")
 
 		if f.Kind() == reflect.Ptr && f.Elem().Kind() == reflect.Struct {
