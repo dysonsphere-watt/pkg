@@ -103,4 +103,9 @@ const (
 
 	OrderTypeBooking       = "booking"
 	OrderTypeAdvertisement = "advertisement"
+
+	ServiceTypeIDParking         = 1
+	ServiceTypeIDCharging        = 2
+	ServiceTypeIDParkingCharging = 3
+	ServiceTypeIDAdvertisement   = 4
 )
