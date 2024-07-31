@@ -3,6 +3,8 @@ package pkg
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
+	"strings"
 	"time"
 )
 
@@ -135,4 +137,85 @@ func Ternary[T any](p bool, a, b T) T {
 		return a
 	}
 	return b
+}
+
+/*
+Should be generally used for HTTP requests, to check if the bodies are empty.
+Given a JSON serialisable struct, check if any fields are empty given the requiredFields.
+Parents should be an empty string slice when you call it.
+Eg. The JSON body provided:
+
+	{
+		"service_ids": [1, 2, 3],
+		"robot": {
+			"name": "Robot1",
+			"station_id": 123,
+		},
+	}
+
+If you want ALL fields to be provided, have requiredFields = []string{"service_ids", "robot.name", "robot.station_id"}.
+Nested fields are identified by all previous parents joined by a "."
+*/
+func CheckEmptyFields(obj interface{}, parents, requiredFields []string) ([]string, error) {
+	var val reflect.Value
+	missingFields := []string{}
+
+	val = reflect.ValueOf(obj).Elem()
+
+	if val.Kind() != reflect.Struct {
+		return nil, fmt.Errorf("struct expected, received a %s", val.Kind().String())
+	}
+
+	requiredFieldsLookup := make(map[string]struct{})
+	for _, field := range requiredFields {
+		requiredFieldsLookup[field] = struct{}{}
+	}
+
+	for i := 0; i < val.Type().NumField(); i++ {
+		field := val.Type().Field(i)
+		jsonTag := field.Tag.Get("json")
+
+		if jsonTag == "" || jsonTag == "-" {
+			continue
+		}
+
+		f := val.Field(i)
+		curTagSlice := append(parents, jsonTag)
+		curTag := strings.Join(curTagSlice, ".")
+
+		if f.Kind() == reflect.Ptr && f.Elem().Kind() == reflect.Struct {
+			recurMissingFields, err := CheckEmptyFields(f.Interface(), curTagSlice, requiredFields)
+			if err != nil {
+				return nil, err
+			}
+			missingFields = append(missingFields, recurMissingFields...)
+		} else {
+			if _, ok := requiredFieldsLookup[curTag]; ok {
+				if isEmptyValue(f) {
+					missingFields = append(missingFields, curTag)
+				}
+			}
+		}
+	}
+
+	return missingFields, nil
+}
+
+func isEmptyValue(v reflect.Value) bool {
+	switch v.Kind() {
+	case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
+		return v.Len() == 0
+	case reflect.Bool:
+		return !v.Bool()
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return v.Int() == 0
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return v.Uint() == 0
+	case reflect.Float32, reflect.Float64:
+		return v.Float() == 0
+	case reflect.Interface, reflect.Ptr:
+		return v.IsNil()
+	}
+
+	return false
 }
