@@ -78,6 +78,13 @@ const (
 	RobotTaskReturn        = 7  // Instruct robot to return to holding area
 	RobotTaskGenQRCode     = 10 // Instruct robot to generate QR code to begin charging
 
+	// Robot Commands
+	//
+	RobotCommandFAPL = "FAPL" // Command to find a parking lot
+	RobotCommandLRPL = "LRPL" // Command to leave parking lot temporarily to let user park
+	RobotCommandCTPL = "CTPL" // Command to move to parking lot
+	RobotCommandLTPL = "LTPL" // Command to leave parking lot
+
 	// Statuses expected to receive from the robutt
 	//
 	RobotDisabled         = -1 // Robot indicates it is disabled (Probably unused)
