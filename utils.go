@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strings"
 	"time"
+	_ "time/tzdata" // In case the VPS or docker container doesn't contain timezone files
 )
 
 const dateTimeFmt = "2010-01-01 %s"
