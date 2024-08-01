@@ -49,30 +49,32 @@ const (
 
 	// Possible statuses for the `reservation` rows
 	//
-	ReservationCreated                     = 1  // Just created reservation row
-	ReservationOrderFailed                 = 2  // Failed to create order row
-	ReservationPendingOrderSuccess         = 3  // Awaiting payment
-	ReservationPendingRobotAssignment      = 4  // Order paid, awaiting to assign job to robot
-	ReservationPendingFindingLot           = 5  // Robot assigned, waiting for it to start finding a free parking space
-	ReservationFindingLot                  = 6  // Robot assigned and is finding free parking space
-	ReservationAwaitingUser                = 7  // Robot found parking space, awaiting user to arrive
-	ReservationAwaitingUserPark            = 8  // Robot moved aside for user to park, waiting for parking confirmation
-	ReservationPendingChargingConfirmation = 9  // If user arrived and has charging booked, wait for QR code scan
-	ReservationCharging                    = 10 // QR code scanned, charging active for duration booked
-	ReservationCompleted                   = 11 // Robot has finished its duties
-	ReservationReviewed                    = 12 // User has made a review
-	ReservationFailed                      = 90 // Something unexpected happened and caused the reservation to fail
-	ReservationCancelledByUser             = 98 // User cancelled reservation
-	ReservationCancelledBySystem           = 99 // Fatal error caught that caused reservation to be cancelled
+	ReservationCreated                = 1  // Just created reservation row
+	ReservationOrderFailed            = 2  // Failed to create order row
+	ReservationPendingOrderSuccess    = 3  // Awaiting payment
+	ReservationPendingRobotAssignment = 4  // Order paid, awaiting to assign job to robot
+	ReservationPendingFindingLot      = 5  // Robot assigned, waiting for it to start finding a free parking space
+	ReservationFindingLot             = 6  // Robot assigned and is finding free parking space
+	ReservationAwaitingUser           = 7  // Robot found parking space, awaiting user to arrive
+	ReservationAwaitingUserPark       = 8  // Robot moved aside for user to park, waiting for parking confirmation
+	ReservationPendingUserCharge      = 9  // If user arrived and has charging booked, wait for QR code scan
+	ReservationCharging               = 10 // QR code scanned, charging active for duration booked
+	ReservationCompleted              = 11 // Robot has finished its duties
+	ReservationReviewed               = 12 // User has made a review
+	ReservationRobotOnTheWay          = 20 // If booked charging only, robot is now on the way to the station lot
+	ReservationFailed                 = 90 // Something unexpected happened and caused the reservation to fail
+	ReservationCancelledByUser        = 98 // User cancelled reservation
+	ReservationCancelledBySystem      = 99 // Fatal error caught that caused reservation to be cancelled
 
 	// Task IDs to be sent to the robutt from the microservice
 	//
 	RobotTaskFindParking   = 1  // Instruct robot to find a parking space
 	RobotTaskUserArrived   = 2  // Instruct robot that user has arrived at parking space (Move out of the way)
 	RobotTaskUserParked    = 3  // Instruct robot that user has parked in the parking space (Move close to the car)
-	RobotTaskBeginCharging = 4  // Instruct robot to allow charging
-	RobotTaskStopCharging  = 5  // Instruct robot to stop charging
-	RobotTaskReturn        = 6  // Instruct robot to return to holding area
+	RobotTaskUnlockGun     = 4  // Instruct robot to unlock charging gun
+	RobotTaskBeginCharging = 5  // Instruct robot to allow charging
+	RobotTaskStopCharging  = 6  // Instruct robot to stop charging
+	RobotTaskReturn        = 7  // Instruct robot to return to holding area
 	RobotTaskGenQRCode     = 10 // Instruct robot to generate QR code to begin charging
 
 	// Statuses expected to receive from the robutt
