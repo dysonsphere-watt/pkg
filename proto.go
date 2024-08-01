@@ -1,6 +1,6 @@
 package pkg
 
-import pb "github.com/golang/protobuf/ptypes/struct"
+import pb "google.golang.org/protobuf/types/known/structpb"
 
 // Credits: https://gist.github.com/unstppbl/31c86d97332798c22d26c1c67f3c6ca1
 func ProtoStructToMap(s *pb.Struct) map[string]interface{} {

@@ -9,13 +9,13 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.0.0
 	github.com/cloudwego/hertz v0.9.1
 	github.com/go-resty/resty/v2 v2.13.1
-	github.com/golang/protobuf v1.5.4
 	github.com/goravel/framework v1.14.1
 	github.com/hashicorp/consul/api v1.29.1
 	github.com/hertz-contrib/cors v0.1.0
 	github.com/hertz-contrib/registry/consul v0.0.0-20240618152458-11c3cac90e4f
 	github.com/hertz-contrib/swagger v0.1.0
 	github.com/swaggo/files v1.0.1
+	google.golang.org/protobuf v1.34.2
 )
 
 require (
@@ -92,6 +92,7 @@ require (
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomodule/redigo v2.0.0+incompatible // indirect
 	github.com/google/s2a-go v0.1.7 // indirect
@@ -207,7 +208,6 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20240624140628-dc46fd24d27d // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240624140628-dc46fd24d27d // indirect
 	google.golang.org/grpc v1.64.0 // indirect
-	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
