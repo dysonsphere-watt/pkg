@@ -59,9 +59,10 @@ const (
 	ReservationAwaitingUserPark       = 8  // Robot moved aside for user to park, waiting for parking confirmation
 	ReservationPendingUserCharge      = 9  // If user arrived and has charging booked, wait for QR code scan
 	ReservationCharging               = 10 // QR code scanned, charging active for duration booked
-	ReservationCompleted              = 11 // Robot has finished its duties
-	ReservationReviewed               = 12 // User has made a review
+	ReservationReturnGun              = 11 // Charging completed, awaiting user to return charging gun
 	ReservationRobotOnTheWay          = 20 // If booked charging only, robot is now on the way to the station lot
+	ReservationCompleted              = 50 // Robot has finished its duties
+	ReservationReviewed               = 51 // User has made a review
 	ReservationFailed                 = 90 // Something unexpected happened and caused the reservation to fail
 	ReservationCancelledByUser        = 98 // User cancelled reservation
 	ReservationCancelledBySystem      = 99 // Fatal error caught that caused reservation to be cancelled
