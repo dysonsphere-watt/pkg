@@ -9,6 +9,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.0.0
 	github.com/cloudwego/hertz v0.9.1
 	github.com/go-resty/resty/v2 v2.13.1
+	github.com/golang/protobuf v1.5.4
 	github.com/goravel/framework v1.14.1
 	github.com/hashicorp/consul/api v1.29.1
 	github.com/hertz-contrib/cors v0.1.0
@@ -91,7 +92,6 @@ require (
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gomodule/redigo v2.0.0+incompatible // indirect
 	github.com/google/s2a-go v0.1.7 // indirect
