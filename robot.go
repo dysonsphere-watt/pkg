@@ -13,7 +13,7 @@ type QRCodeMessage struct {
 
 type ToRobotCommandMessage struct {
 	Command string `json:"command"`
-	DataB64 []byte `json:"data_b64"`
+	Data    []byte `json:"data_b64"` // Has b64 suffix because it's converted to base64 in json.Marshal()
 }
 
 type ToRobotMQTTMessage struct {
