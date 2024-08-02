@@ -87,20 +87,25 @@ const (
 
 	// Statuses expected to receive from the robutt
 	//
-	RobotDisabled         = -1 // Robot indicates it is disabled (Probably unused)
-	RobotAvailable        = 1  // Robot indicates it is available for jobs
-	RobotAssigned         = 2  // Robot indicates it has been assigned a reservation and is pending action
-	RobotFindingParking   = 3  // Robot indicates it is currently finding a parking space
-	RobotParked           = 4  // Robot indicates it has found a parking space and is parked
-	RobotMakingWayParking = 5  // Robot indicates it is making way for the user to park
-	RobotMadeWay          = 6  // Robot indicates it has made way for user to park
-	RobotMovingClose      = 7  // Robot indicates that it is moving close to the user's vehicle for charging
-	RobotReadyForCharging = 8  // Robot indicates that it is near the user's vehicle and is awaiting QR code scan
-	RobotCharging         = 9  // Robot indicates it is currently charging the vehicle
-	RobotFinishedCharging = 10 // Robot indicates it has finished charging
-	RobotReturning        = 11 // Robot indicates it is currently returning to the holding area
-	RobotMaintenance      = 90 // Robot indicates it is under maintenance (Probably unused)
-	RobotDisconnected     = 98 // Robot unexpectedly disconnected from MQTT. Used in the last will payload
+	RobotDisabled             = -1 // Robot indicates it is disabled (Probably unused)
+	RobotAvailable            = 1  // Robot indicates it is available for jobs
+	RobotAssigned             = 2  // Robot indicates it has been assigned a reservation and is pending action
+	RobotFindingParkingLot    = 10 // Robot indicates it is currently finding a parking lot
+	RobotFoundParkingLot      = 11 // Robot indicates it has found a parking lot
+	RobotMovingToParkingLot   = 12 // Robot indicates it is currently moving to a designated parking lot
+	RobotParked               = 13 // Robot indicates it has found a parking space and is parked
+	RobotMakingWayParking     = 14 // Robot indicates it is making way for the user to park
+	RobotMadeWay              = 15 // Robot indicates it has made way for user to park
+	RobotMovingClose          = 16 // Robot indicates that it is moving close to the user's vehicle for charging
+	RobotReadyForCharging     = 20 // Robot indicates that it is near the user's vehicle and charging gun is unlocked
+	RobotCharging             = 21 // Robot indicates it is currently charging the vehicle
+	RobotFinishedCharging     = 22 // Robot indicates it has finished charging
+	RobotChargingGunUnplugged = 23 // Robot indicates charging gun is still unplugged
+	RobotChargingGunPlugged   = 24 // Robot indicates charging gun is inserted back in
+	RobotReturning            = 40 // Robot indicates it is currently returning to the holding area
+	RobotMaintenance          = 90 // Robot indicates it is under maintenance (Probably unused)
+	RobotError                = 95 // Robot indicates that something unexpected has happened on the hardware end
+	RobotDisconnected         = 98 // Robot unexpectedly disconnected from MQTT. Used in the last will payload
 
 	// MQTT Topic types
 	MQTTTopicTypeIdle         = 0 // Empty status
