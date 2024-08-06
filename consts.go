@@ -1,6 +1,10 @@
 package pkg
 
 const (
+	// Generic statuses
+	StatusEnabled  = 1
+	StatusDisabled = -1
+
 	// Advertisement statuses
 	AdvertisementCreated             = 1  // On creation, probably unused
 	AdvertisementPendingPayment      = 2  // After creation, waiting for user to pay
